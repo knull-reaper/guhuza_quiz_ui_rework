@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 export interface LeaderboardEntry {
   username: string;
   level: number;
-  correctCount: number;
+  totalScore: number;
+  avgTime: number;
   totalTime: number;
   created_at: string;
 }
@@ -36,23 +37,28 @@ export const useLeaderboardAPI = (): UseLeaderboardAPIReturn => {
         const current = {
           username: submission.username,
           level: submission.level,
-          correctCount: submission.correctCount,
+          totalScore: submission.totalScore || submission.correctCount, // Backward compatibility
+          avgTime: submission.avgTime || (submission.totalTime / 10), // Estimate if not available
           totalTime: submission.totalTime,
           created_at: submission.created_at
         };
         
         if (!existing || 
-            current.correctCount > existing.correctCount || 
-            (current.correctCount === existing.correctCount && current.totalTime < existing.totalTime)) {
+            current.totalScore > existing.totalScore || 
+            (current.totalScore === existing.totalScore && current.avgTime < existing.avgTime) ||
+            (current.totalScore === existing.totalScore && current.avgTime === existing.avgTime && current.totalTime < existing.totalTime)) {
           userBest.set(submission.username, current);
         }
       });
       
-      // Sort by correctCount desc, then totalTime asc, take top 10
+      // Sort by totalScore desc, then avgTime asc, then totalTime asc, take top 10
       const sortedEntries = Array.from(userBest.values())
         .sort((a, b) => {
-          if (b.correctCount !== a.correctCount) {
-            return b.correctCount - a.correctCount;
+          if (b.totalScore !== a.totalScore) {
+            return b.totalScore - a.totalScore;
+          }
+          if (a.avgTime !== b.avgTime) {
+            return a.avgTime - b.avgTime;
           }
           return a.totalTime - b.totalTime;
         })

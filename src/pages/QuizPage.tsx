@@ -26,6 +26,7 @@ export const QuizPage: React.FC = () => {
   const [answers, setAnswers] = useState<number[]>([]);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [totalTime, setTotalTime] = useState(0);
+  const [questionTimes, setQuestionTimes] = useState<number[]>([]);
   const [quizState, setQuizState] = useState<'playing' | 'finished' | 'submitting'>('playing');
   const [showResult, setShowResult] = useState(false);
   const [newAwards, setNewAwards] = useState<{ achievements: any[]; badges: any[] }>({ achievements: [], badges: [] });
@@ -48,6 +49,7 @@ export const QuizPage: React.FC = () => {
     
     const questionTime = (Date.now() - questionStartTime) / 1000;
     setTotalTime(prev => prev + questionTime);
+    setQuestionTimes(prev => [...prev, questionTime]);
     
     setTimeout(() => {
       const newAnswers = [...answers, answerIndex];
@@ -76,22 +78,25 @@ export const QuizPage: React.FC = () => {
   const finishQuiz = async (finalAnswers: number[]) => {
     setQuizState('submitting');
     
-    const correctCount = finalAnswers.reduce((count, answer, index) => {
+    const totalScore = finalAnswers.reduce((count, answer, index) => {
       return answer === questions[index]?.correct ? count + 1 : count;
     }, 0);
+
+    const avgTime = questionTimes.length > 0 ? questionTimes.reduce((sum, time) => sum + time, 0) / questionTimes.length : 0;
 
     try {
       const result = await submitQuiz({
         level: currentLevel,
-        correctCount,
-        totalTime: Math.round(totalTime)
+        totalScore,
+        totalTime: Math.round(totalTime),
+        avgTime: Math.round(avgTime * 100) / 100 // Round to 2 decimal places
       });
 
       if (result.success) {
-        setNewAwards(result.awarded);
+        setNewAwards(result.newlyAwarded);
         toast({
           title: "Quiz completed!",
-          description: `You scored ${correctCount}/${questions.length} in ${Math.round(totalTime)}s`,
+          description: `You scored ${totalScore}/${questions.length} in ${Math.round(totalTime)}s`,
         });
       }
     } catch (error) {
@@ -110,6 +115,7 @@ export const QuizPage: React.FC = () => {
     setSelectedAnswer(undefined);
     setAnswers([]);
     setTotalTime(0);
+    setQuestionTimes([]);
     setQuizState('playing');
     setShowResult(false);
     setQuestionStartTime(Date.now());
@@ -201,6 +207,9 @@ export const QuizPage: React.FC = () => {
             </div>
 
             <div className="flex gap-3">
+              <Button variant="outline" onClick={() => navigate('/levels')} className="flex-1">
+                Choose Level
+              </Button>
               <Button variant="outline" onClick={() => navigate('/leaderboard')} className="flex-1">
                 View Leaderboard
               </Button>

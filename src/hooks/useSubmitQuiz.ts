@@ -3,8 +3,9 @@ import { useUser } from '../context/UserContext';
 
 export interface QuizResult {
   level: number;
-  correctCount: number;
+  totalScore: number;
   totalTime: number;
+  avgTime: number;
 }
 
 export interface Achievement {
@@ -23,10 +24,11 @@ export interface Badge {
 
 interface SubmitResponse {
   success: boolean;
-  awarded: {
+  newlyAwarded: {
     achievements: Achievement[];
     badges: Badge[];
   };
+  updatedLevels?: any[]; // For future backend integration
 }
 
 export const useSubmitQuiz = () => {
@@ -49,7 +51,11 @@ export const useSubmitQuiz = () => {
       const newSubmission = {
         id: Date.now(),
         username,
-        ...result,
+        level: result.level,
+        correctCount: result.totalScore, // Map totalScore to correctCount for backward compatibility
+        totalScore: result.totalScore,
+        totalTime: result.totalTime,
+        avgTime: result.avgTime,
         created_at: new Date().toISOString()
       };
       
@@ -64,13 +70,13 @@ export const useSubmitQuiz = () => {
       
       return {
         success: true,
-        awarded: mockAwards
+        newlyAwarded: mockAwards
       };
     } catch (error) {
       console.error('Failed to submit quiz:', error);
       return {
         success: false,
-        awarded: { achievements: [], badges: [] }
+        newlyAwarded: { achievements: [], badges: [] }
       };
     } finally {
       setSubmitting(false);

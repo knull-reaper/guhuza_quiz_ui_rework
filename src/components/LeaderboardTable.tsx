@@ -99,10 +99,19 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 
                 <div className="text-center">
                   <div className="font-bold text-primary">
-                    {entry.correctCount}/10
+                    {entry.totalScore}/10
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    correct
+                    score
+                  </div>
+                </div>
+                
+                <div className="text-center">
+                  <div className="font-mono text-sm">
+                    {entry.avgTime?.toFixed(1) || 'N/A'}s
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    avg time
                   </div>
                 </div>
                 
@@ -111,7 +120,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                     {formatTime(entry.totalTime)}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    time
+                    total time
                   </div>
                 </div>
                 

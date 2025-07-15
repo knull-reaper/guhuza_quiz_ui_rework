@@ -49,7 +49,7 @@ export const SignupPage: React.FC = () => {
         description: `Welcome to QuizMaster, ${username}!`,
       });
       
-      navigate('/quiz/1');
+      navigate('/profile');
     } catch (error) {
       toast({
         title: "Error",

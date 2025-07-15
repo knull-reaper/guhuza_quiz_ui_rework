@@ -8,6 +8,7 @@ import { SignupPage } from "./pages/SignupPage";
 import { QuizPage } from "./pages/QuizPage";
 import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { LevelsPage } from "./pages/LevelsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/" element={<SignupPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/quiz/:level" element={<QuizPage />} />
+            <Route path="/levels" element={<LevelsPage />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<NotFound />} />
