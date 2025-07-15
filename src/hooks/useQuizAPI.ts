@@ -44,31 +44,42 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
   const fetchQuestions = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      // TODO: Replace with real backend call
-      const response = await fetch(`https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=${level}`);
-      
+      const response = await fetch(
+        `https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=${level}`
+      );
+
       if (!response.ok) {
         throw new Error('Failed to fetch from API');
       }
-      
-      const data = await response.json();
-      
-      // TODO: Upsert data into localStorage cache
-      localStorage.setItem(CACHE_KEY_PREFIX + level, JSON.stringify(data));
-      
+
+      const apiJson = await response.json();
+      const apiQuestions = apiJson?.test?.question || [];
+      const data: Question[] = apiQuestions.map((q: any, idx: number) => ({
+        id: idx + 1,
+        question: q.question,
+        answers: q.answers,
+        correct: q.test_answer,
+        level
+      }));
+
+      // Cache the fetched questions so we can work offline later
+      localStorage.setItem(
+        CACHE_KEY_PREFIX + level,
+        JSON.stringify({ ts: Date.now(), data })
+      );
+
       setQuestions(data);
     } catch (err) {
       console.warn('API fetch failed, trying cache...', err);
-      
-      // TODO: Load from localStorage cache
+
       const cached = localStorage.getItem(CACHE_KEY_PREFIX + level);
-      
+
       if (cached) {
         try {
-          const cachedData = JSON.parse(cached);
-          setQuestions(cachedData);
+          const parsed = JSON.parse(cached);
+          setQuestions(parsed.data ?? parsed);
         } catch {
           // If cache is corrupted, use mock data
           setQuestions(generateMockQuestions(level));
