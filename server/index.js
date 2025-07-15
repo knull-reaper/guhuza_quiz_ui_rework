@@ -100,8 +100,30 @@ app.get('/api/v2/quiz', async (req, res) => {
     if (!response.ok) {
       throw new Error('Failed to fetch remote quiz');
     }
-    const data = await response.json();
-    res.json(data);
+    const apiJson = await response.json();
+
+    let questions = [];
+    if (Array.isArray(apiJson)) {
+      questions = apiJson;
+    } else if (Array.isArray(apiJson.questions)) {
+      questions = apiJson.questions;
+    } else if (Array.isArray(apiJson.test?.question)) {
+      questions = apiJson.test.question;
+    }
+
+    if (!questions.length) {
+      throw new Error('Unexpected API response');
+    }
+
+    const normalized = questions.map((q, idx) => ({
+      id: q.id ?? idx + 1,
+      question: q.question,
+      answers: q.answers,
+      correct: q.test_answer ?? q.correct,
+      level: q.level ?? level
+    }));
+
+    res.json(normalized);
   } catch (err) {
     console.warn('Remote quiz fetch failed, using mock data', err);
     res.json(generateMockQuestions(level));

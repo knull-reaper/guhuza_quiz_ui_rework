@@ -46,22 +46,29 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
     setError(null);
 
     try {
-      const response = await fetch(
-        `https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=${level}`
-      );
+      const response = await fetch(`/api/v2/quiz?level=${level}`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch from API');
       }
 
       const apiJson = await response.json();
-      const apiQuestions = apiJson?.test?.question || [];
-      const data: Question[] = apiQuestions.map((q: any, idx: number) => ({
-        id: idx + 1,
+
+      let questions: any[] = [];
+      if (Array.isArray(apiJson)) {
+        questions = apiJson;
+      } else if (Array.isArray(apiJson.questions)) {
+        questions = apiJson.questions;
+      } else if (Array.isArray(apiJson.test?.question)) {
+        questions = apiJson.test.question;
+      }
+
+      const data: Question[] = questions.map((q: any, idx: number) => ({
+        id: q.id ?? idx + 1,
         question: q.question,
         answers: q.answers,
-        correct: q.test_answer,
-        level
+        correct: q.test_answer ?? q.correct,
+        level: q.level ?? level
       }));
 
       // Cache the fetched questions so we can work offline later
