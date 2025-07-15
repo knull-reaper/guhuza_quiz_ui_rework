@@ -43,10 +43,10 @@ export const Badge3D: React.FC<Badge3DProps> = ({
   const badgeAsset = getBadgeAsset(id);
 
   return (
-    <div className="group relative">
+    <div className="group relative p-2">
       {/* Badge Container */}
       <div className={`
-        relative w-24 h-24 mx-auto mb-3 transition-all duration-300 group-hover:scale-110
+        relative w-20 h-20 mx-auto mb-3 transition-all duration-300 group-hover:scale-110
         ${isEarned ? 'badge-earned' : ''}
       `}>
         {/* Main Badge Image */}
@@ -56,44 +56,44 @@ export const Badge3D: React.FC<Badge3DProps> = ({
             alt={name}
             className={`
               w-full h-full object-contain transition-all duration-300
-              ${!isEarned ? 'filter grayscale brightness-50' : 'filter drop-shadow-lg'}
-              ${isEarned ? 'group-hover:filter group-hover:brightness-110 group-hover:drop-shadow-2xl' : ''}
+              ${!isEarned ? 'filter grayscale brightness-50 opacity-60' : 'filter drop-shadow-lg'}
+              ${isEarned ? 'group-hover:filter group-hover:brightness-110 group-hover:drop-shadow-2xl group-hover:scale-105' : ''}
             `}
           />
           
           {/* Crown for Special Badges */}
           {id === 3 && isEarned && (
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-              <Crown className="h-4 w-4 text-yellow-400 fill-current drop-shadow-md" />
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2">
+              <Crown className="h-3 w-3 text-yellow-400 fill-current drop-shadow-md" />
             </div>
           )}
         </div>
         
         {/* Earned Indicator */}
         {isEarned && (
-          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
-            <Star className="h-3 w-3 text-white fill-current" />
+          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
+            <Star className="h-2 w-2 text-white fill-current" />
           </div>
         )}
       </div>
       
       {/* Badge Info */}
       <div className="text-center space-y-1">
-        <h4 className={`font-bold text-sm ${isEarned ? 'text-foreground' : 'text-muted-foreground'}`}>
+        <h4 className={`font-semibold text-xs ${isEarned ? 'text-foreground' : 'text-muted-foreground'}`}>
           {name}
         </h4>
-        <p className={`text-xs ${isEarned ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>
+        <p className={`text-xs leading-tight ${isEarned ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>
           {description}
         </p>
         
         {isEarned ? (
           awardedAt && (
-            <Badge className="bg-green-100 text-green-800 border-green-300 text-xs">
+            <Badge className="bg-green-100 text-green-800 border-green-300 text-xs py-0 px-2">
               {new Date(awardedAt).toLocaleDateString()}
             </Badge>
           )
         ) : (
-          <Badge variant="outline" className="text-muted-foreground border-muted text-xs">
+          <Badge variant="outline" className="text-muted-foreground border-muted text-xs py-0 px-2">
             Locked
           </Badge>
         )}

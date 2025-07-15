@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { User, LogOut, Play, Trophy, Target, Zap, Award, Star, Shield, BarChart, Medal } from 'lucide-react';
+import { User, LogOut, Play, Trophy, Target, Zap, Award, BarChart, Medal } from 'lucide-react';
 import { Badge3D } from '../components/Badge3D';
-import { FlyingStars } from '../components/ConfettiEffect';
 import { useAchievementAPI } from '../hooks/useAchievementAPI';
 import { useUser } from '../context/UserContext';
 
@@ -13,7 +12,6 @@ export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { username, logout } = useUser();
   const { achievements, badges, loading } = useAchievementAPI();
-  const [showFlyingStars, setShowFlyingStars] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -51,12 +49,7 @@ export const ProfilePage: React.FC = () => {
   const { totalQuizzes, avgScore, bestScore } = getStatsFromSubmissions();
 
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-muted/50"
-      onMouseEnter={() => setShowFlyingStars(true)}
-      onMouseLeave={() => setShowFlyingStars(false)}
-    >
-      <FlyingStars isActive={showFlyingStars} count={8} />
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-muted/50">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header Section */}
         <Card className="mb-8 border-0 shadow-xl bg-gradient-to-r from-primary to-accent text-white overflow-hidden">
