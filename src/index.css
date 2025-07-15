@@ -8,59 +8,80 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Base colors */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    /* Card colors */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    /* Popover colors */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
 
-    --primary: 263 70% 50%;
+    /* Primary colors - vibrant blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary colors - soft purple */
+    --secondary: 270 50% 95%;
+    --secondary-foreground: 270 50% 20%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    /* Muted colors */
+    --muted: 210 40% 98%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
+    /* Accent colors - vibrant purple */
     --accent: 270 95% 75%;
-    --accent-foreground: 240 10% 3.9%;
+    --accent-foreground: 270 50% 20%;
 
+    /* Destructive colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 263 70% 50%;
+    /* Border and input */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 91% 60%;
 
+    /* Success colors */
     --success: 142 76% 36%;
     --success-foreground: 0 0% 98%;
 
+    /* Warning colors */
     --warning: 38 92% 50%;
-    --warning-foreground: 240 10% 3.9%;
+    --warning-foreground: 0 0% 98%;
 
-    --quiz-gradient: linear-gradient(135deg, hsl(263 70% 50%), hsl(270 95% 75%));
-    --quiz-glow: 0 0 40px hsl(263 70% 50% / 0.3);
+    /* Quiz theme colors */
+    --quiz-primary: 217 91% 60%;
+    --quiz-secondary: 270 95% 75%;
+    --quiz-success: 142 76% 36%;
+    --quiz-warning: 38 92% 50%;
+    --quiz-danger: 0 84% 60%;
 
-    --radius: 0.5rem;
+    /* Gradient definitions */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(270 95% 75%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 70% 45%));
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%), hsl(45 90% 55%));
 
+    /* Shadows and effects */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
+
+    --radius: 0.75rem;
+
+    /* Sidebar colors */
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -74,7 +95,7 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 217 91% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -83,15 +104,16 @@ All colors MUST be HSL.
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 270 95% 75%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 217 91% 60%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
