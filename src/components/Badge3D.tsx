@@ -78,8 +78,8 @@ export const Badge3D: React.FC<Badge3DProps> = ({
       </div>
       
       {/* Badge Info */}
-      <div className="text-center">
-        <h4 className={`font-semibold text-xs ${isEarned ? 'text-foreground' : 'text-muted-foreground'}`}>
+      <div className="text-center mt-2">
+        <h4 className={`font-medium text-xs leading-tight ${isEarned ? 'text-foreground' : 'text-muted-foreground/70'}`}>
           {name}
         </h4>
       </div>
