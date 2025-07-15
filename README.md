@@ -64,10 +64,26 @@ This project is built with:
 
 This project now includes a small Express API backed by SQLite. The server will
 forward quiz requests to the public API so you can work with real questions.
+
+During development you can run the frontend and backend together with one
+command:
+
+```bash
+npm run dev
+```
+
+If you only need the API server, run:
+
 Start it with:
+
 
 ```bash
 npm run start:server
+```
+To just launch the Vite dev server run:
+
+```bash
+npm run dev:client
 ```
 
 The database file is stored at `server/quiz.db` and will be created automatically.
