@@ -78,25 +78,10 @@ export const Badge3D: React.FC<Badge3DProps> = ({
       </div>
       
       {/* Badge Info */}
-      <div className="text-center space-y-1">
+      <div className="text-center">
         <h4 className={`font-semibold text-xs ${isEarned ? 'text-foreground' : 'text-muted-foreground'}`}>
           {name}
         </h4>
-        <p className={`text-xs leading-tight ${isEarned ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>
-          {description}
-        </p>
-        
-        {isEarned ? (
-          awardedAt && (
-            <Badge className="bg-green-100 text-green-800 border-green-300 text-xs py-0 px-2">
-              {new Date(awardedAt).toLocaleDateString()}
-            </Badge>
-          )
-        ) : (
-          <Badge variant="outline" className="text-muted-foreground border-muted text-xs py-0 px-2">
-            Locked
-          </Badge>
-        )}
       </div>
     </div>
   );
