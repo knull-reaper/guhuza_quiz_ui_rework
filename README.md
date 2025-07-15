@@ -74,10 +74,12 @@ npm run dev
 
 If you only need the API server, run:
 
+Start it with:
+
+
 ```bash
 npm run start:server
 ```
-
 To just launch the Vite dev server run:
 
 ```bash
