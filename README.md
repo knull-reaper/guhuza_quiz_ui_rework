@@ -60,6 +60,32 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Backend server
+
+This project now includes a small Express API backed by SQLite. The server will
+forward quiz requests to the public API so you can work with real questions.
+
+During development you can run the frontend and backend together with one
+command:
+
+```bash
+npm run dev
+```
+
+If you only need the API server, run:
+
+```bash
+npm run start:server
+```
+
+To just launch the Vite dev server run:
+
+```bash
+npm run dev:client
+```
+
+The database file is stored at `server/quiz.db` and will be created automatically.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/3f57b9c4-cd7c-4cfa-9243-4f109bb32dd3) and click on Share -> Publish.

@@ -42,19 +42,30 @@ export const useAchievementAPI = (): UseAchievementAPIReturn => {
     }
 
     try {
-      // TODO: Replace with real backend call
-      // const response = await fetch(`/api/user/${username}/achievements`);
-      // const data = await response.json();
-      
-      // Mock implementation using localStorage
-      const submissions = JSON.parse(localStorage.getItem('ghz_quizzes') || '[]');
-      const userSubmissions = submissions.filter((s: any) => s.username === username);
-      
-      const earnedAchievements = calculateUserAchievements(userSubmissions);
-      const earnedBadges = calculateUserBadges(userSubmissions);
-      
-      setAchievements(earnedAchievements);
-      setBadges(earnedBadges);
+      let data: { achievements: Achievement[]; badges: Badge[] } | null = null;
+
+      try {
+        const response = await fetch(`/api/user/${username}/achievements`);
+        if (!response.ok) {
+          throw new Error('Server returned an error');
+        }
+        data = await response.json();
+      } catch (err) {
+        const submissions = JSON.parse(
+          localStorage.getItem('ghz_quizzes') || '[]'
+        );
+        const userSubmissions = submissions.filter(
+          (s: any) => s.username === username
+        );
+
+        data = {
+          achievements: calculateUserAchievements(userSubmissions),
+          badges: calculateUserBadges(userSubmissions),
+        };
+      }
+
+      setAchievements(data.achievements);
+      setBadges(data.badges);
       setError(null);
     } catch (err) {
       setError('Failed to fetch achievements');

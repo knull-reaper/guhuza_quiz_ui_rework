@@ -30,17 +30,26 @@ export const useLevelsAPI = (): UseLevelsAPIReturn => {
     }
 
     try {
-      // TODO: Replace with real backend call
-      // const response = await fetch(`/api/user/${username}/levels`);
-      // const data = await response.json();
-      
-      // Mock implementation using localStorage
-      const submissions = JSON.parse(localStorage.getItem('ghz_quizzes') || '[]');
-      const userSubmissions = submissions.filter((s: any) => s.username === username);
-      
-      const levelStatuses = calculateLevelStatuses(userSubmissions);
-      
-      setLevels(levelStatuses);
+      let data: LevelStatus[] | null = null;
+
+      try {
+        const response = await fetch(`/api/user/${username}/levels`);
+        if (!response.ok) {
+          throw new Error('Server returned an error');
+        }
+        data = await response.json();
+      } catch (err) {
+        const submissions = JSON.parse(
+          localStorage.getItem('ghz_quizzes') || '[]'
+        );
+        const userSubmissions = submissions.filter(
+          (s: any) => s.username === username
+        );
+
+        data = calculateLevelStatuses(userSubmissions);
+      }
+
+      setLevels(data);
       setError(null);
     } catch (err) {
       setError('Failed to fetch level data');
