@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, RefreshCw, Trophy, Medal, Award, TrendingUp, Clock, Target } from 'lucide-react';
+import { FlyingStars } from '../components/ConfettiEffect';
 import { LeaderboardTable } from '../components/LeaderboardTable';
 import { useLeaderboardAPI } from '../hooks/useLeaderboardAPI';
 
 export const LeaderboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { entries, loading, error } = useLeaderboardAPI();
+  const [showFlyingStars, setShowFlyingStars] = useState(false);
 
   const topThreePlayers = entries.slice(0, 3);
   const otherPlayers = entries.slice(3);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-muted/40">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-muted/40"
+      onMouseEnter={() => setShowFlyingStars(true)}
+      onMouseLeave={() => setShowFlyingStars(false)}
+    >
+      <FlyingStars isActive={showFlyingStars} count={6} />
       <div className="container mx-auto px-4 py-6 max-w-6xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

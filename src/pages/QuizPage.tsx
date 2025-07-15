@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Trophy, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { QuestionCard } from '../components/QuestionCard';
 import { Timer } from '../components/Timer';
+import { ConfettiEffect } from '../components/ConfettiEffect';
 import { useQuizAPI } from '../hooks/useQuizAPI';
 import { useSubmitQuiz } from '../hooks/useSubmitQuiz';
 import { useUser } from '../context/UserContext';
@@ -30,6 +31,7 @@ export const QuizPage: React.FC = () => {
   const [quizState, setQuizState] = useState<'playing' | 'finished' | 'submitting'>('playing');
   const [showResult, setShowResult] = useState(false);
   const [newAwards, setNewAwards] = useState<{ achievements: any[]; badges: any[] }>({ achievements: [], badges: [] });
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
@@ -94,6 +96,12 @@ export const QuizPage: React.FC = () => {
 
       if (result.success) {
         setNewAwards(result.newlyAwarded);
+        
+        // Show confetti if any awards were earned
+        if (result.newlyAwarded.achievements.length > 0 || result.newlyAwarded.badges.length > 0) {
+          setShowConfetti(true);
+        }
+        
         toast({
           title: "Quiz completed!",
           description: `You scored ${totalScore}/${questions.length} in ${Math.round(totalTime)}s`,
@@ -225,6 +233,7 @@ export const QuizPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background p-4">
+      <ConfettiEffect trigger={showConfetti} onComplete={() => setShowConfetti(false)} />
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">

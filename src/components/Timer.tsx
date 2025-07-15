@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MinimalTimer } from './MinimalTimer';
 
 interface TimerProps {
-  duration: number; // seconds
+  duration: number;
   onTimeUp: () => void;
   isActive: boolean;
 }
@@ -23,7 +23,7 @@ export const Timer: React.FC<TimerProps> = ({ duration, onTimeUp, isActive }) =>
     }
 
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         if (prev <= 1) {
           onTimeUp();
           return 0;
@@ -33,32 +33,13 @@ export const Timer: React.FC<TimerProps> = ({ duration, onTimeUp, isActive }) =>
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, onTimeUp, isActive]);
-
-  const percentage = (timeLeft / duration) * 100;
-  const isUrgent = percentage <= 25;
+  }, [timeLeft, isActive, onTimeUp]);
 
   return (
-    <div className="flex items-center gap-3">
-      <Clock className={`h-5 w-5 ${isUrgent ? 'text-destructive' : 'text-muted-foreground'}`} />
-      <div className="flex-1">
-        <div className="flex justify-between items-center mb-1">
-          <span className={`text-sm font-medium ${isUrgent ? 'text-destructive' : 'text-foreground'}`}>
-            {timeLeft}s
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {Math.round(percentage)}%
-          </span>
-        </div>
-        <div className="w-full bg-muted rounded-full h-2">
-          <div 
-            className={`h-2 rounded-full transition-all duration-1000 ${
-              isUrgent ? 'bg-destructive' : 'bg-primary'
-            }`}
-            style={{ width: `${percentage}%` }}
-          />
-        </div>
-      </div>
-    </div>
+    <MinimalTimer 
+      timeLeft={timeLeft}
+      duration={duration}
+      isActive={isActive}
+    />
   );
 };

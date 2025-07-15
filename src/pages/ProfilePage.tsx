@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { User, LogOut, Play, Trophy, Target, Zap, Award, Star, Shield, BarChart, Medal } from 'lucide-react';
+import { Badge3D } from '../components/Badge3D';
+import { FlyingStars } from '../components/ConfettiEffect';
 import { useAchievementAPI } from '../hooks/useAchievementAPI';
 import { useUser } from '../context/UserContext';
 
@@ -11,6 +13,7 @@ export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { username, logout } = useUser();
   const { achievements, badges, loading } = useAchievementAPI();
+  const [showFlyingStars, setShowFlyingStars] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -22,13 +25,13 @@ export const ProfilePage: React.FC = () => {
     return null;
   }
 
-  // All possible badges for grid display
+  // All possible badges for grid display with different shapes
   const allBadges = [
-    { id: 1, name: 'On the Board', description: 'Make it to the leaderboard', icon: Target, color: 'from-blue-500 to-blue-600' },
-    { id: 2, name: 'Streak Starter', description: 'Answer 5 questions correctly in a row', icon: Zap, color: 'from-yellow-500 to-orange-500' },
-    { id: 3, name: 'Daily Returner', description: 'Play quizzes on consecutive days', icon: Star, color: 'from-purple-500 to-purple-600' },
-    { id: 4, name: 'Commentator', description: 'Provide feedback on questions', icon: Award, color: 'from-green-500 to-green-600' },
-    { id: 5, name: 'Cache Champion', description: 'Play when offline using cached questions', icon: Shield, color: 'from-red-500 to-red-600' }
+    { id: 1, name: 'On the Board', description: 'Make it to the leaderboard', shape: 'hexagon' as const },
+    { id: 2, name: 'Streak Starter', description: 'Answer 5 questions correctly in a row', shape: 'pentagon' as const },
+    { id: 3, name: 'Daily Returner', description: 'Play quizzes on consecutive days', shape: 'shield' as const },
+    { id: 4, name: 'Commentator', description: 'Provide feedback on questions', shape: 'circle' as const },
+    { id: 5, name: 'Cache Champion', description: 'Play when offline using cached questions', shape: 'hexagon' as const }
   ];
 
   const isBadgeEarned = (badgeId: number) => badges.some(b => b.id === badgeId);
@@ -48,7 +51,12 @@ export const ProfilePage: React.FC = () => {
   const { totalQuizzes, avgScore, bestScore } = getStatsFromSubmissions();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-muted/50">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-muted/50"
+      onMouseEnter={() => setShowFlyingStars(true)}
+      onMouseLeave={() => setShowFlyingStars(false)}
+    >
+      <FlyingStars isActive={showFlyingStars} count={8} />
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header Section */}
         <Card className="mb-8 border-0 shadow-xl bg-gradient-to-r from-primary to-accent text-white overflow-hidden">
@@ -216,53 +224,21 @@ export const ProfilePage: React.FC = () => {
               </p>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 {allBadges.map((badge) => {
                   const earned = isBadgeEarned(badge.id);
                   const earnedBadge = badges.find(b => b.id === badge.id);
-                  const Icon = badge.icon;
                   
                   return (
-                    <div 
+                    <Badge3D
                       key={badge.id}
-                      className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 ${
-                        earned 
-                          ? 'bg-white border-indigo-200 shadow-md hover:shadow-lg' 
-                          : 'bg-gray-50 border-gray-200 opacity-60'
-                      }`}
-                    >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${
-                        earned ? `bg-gradient-to-br ${badge.color}` : 'bg-gray-200'
-                      }`}>
-                        <Icon className={`h-6 w-6 ${earned ? 'text-white' : 'text-gray-400'}`} />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className={`font-bold ${earned ? 'text-purple-900' : 'text-gray-500'}`}>
-                          {badge.name}
-                        </h4>
-                        <p className={`text-sm ${earned ? 'text-purple-700' : 'text-gray-400'}`}>
-                          {badge.description}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        {earned ? (
-                          <div>
-                            <Badge className="bg-green-100 text-green-800 border-green-300 mb-1">
-                              Earned
-                            </Badge>
-                            {earnedBadge?.awarded_at && (
-                              <p className="text-xs text-muted-foreground">
-                                {new Date(earnedBadge.awarded_at).toLocaleDateString()}
-                              </p>
-                            )}
-                          </div>
-                        ) : (
-                          <Badge variant="outline" className="text-gray-400 border-gray-300">
-                            Locked
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
+                      id={badge.id}
+                      name={badge.name}
+                      description={badge.description}
+                      isEarned={earned}
+                      awardedAt={earnedBadge?.awarded_at}
+                      shape={badge.shape}
+                    />
                   );
                 })}
               </div>
