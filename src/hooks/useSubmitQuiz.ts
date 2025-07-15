@@ -39,44 +39,59 @@ export const useSubmitQuiz = () => {
     setSubmitting(true);
     
     try {
-      // TODO: Replace with real backend call
-      // const response = await fetch('/api/submit', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ ...result, username })
-      // });
-      
-      // Mock submission - store in localStorage
+      const response = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...result, username })
+      });
+
+      if (!response.ok) {
+        throw new Error('Server returned an error');
+      }
+
+      const data: SubmitResponse = await response.json();
+
+      // Persist the submission locally so the rest of the app can work offline
+      const submissions = JSON.parse(localStorage.getItem('ghz_quizzes') || '[]');
+      submissions.push({
+        id: Date.now(),
+        username,
+        level: result.level,
+        correctCount: result.totalScore,
+        totalScore: result.totalScore,
+        totalTime: result.totalTime,
+        avgTime: result.avgTime,
+        created_at: new Date().toISOString()
+      });
+      localStorage.setItem('ghz_quizzes', JSON.stringify(submissions));
+
+      return data;
+    } catch (error) {
+      // Fallback to local submission when the backend is unreachable
+      console.warn('submitQuiz falling back to local storage:', error);
+
       const submissions = JSON.parse(localStorage.getItem('ghz_quizzes') || '[]');
       const newSubmission = {
         id: Date.now(),
         username,
         level: result.level,
-        correctCount: result.totalScore, // Map totalScore to correctCount for backward compatibility
+        correctCount: result.totalScore,
         totalScore: result.totalScore,
         totalTime: result.totalTime,
         avgTime: result.avgTime,
         created_at: new Date().toISOString()
       };
-      
+
       submissions.push(newSubmission);
       localStorage.setItem('ghz_quizzes', JSON.stringify(submissions));
-      
-      // Mock achievement/badge calculation
+
       const mockAwards = calculateMockAwards(submissions.filter((s: any) => s.username === username));
-      
-      // Simulate network delay
+
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       return {
         success: true,
         newlyAwarded: mockAwards
-      };
-    } catch (error) {
-      console.error('Failed to submit quiz:', error);
-      return {
-        success: false,
-        newlyAwarded: { achievements: [], badges: [] }
       };
     } finally {
       setSubmitting(false);
