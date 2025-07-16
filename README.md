@@ -1,56 +1,16 @@
-# Welcome to your Lovable project
+# Quiz Arena
 
-## Project info
+Quiz Arena is a web-based application that allows users to test their knowledge on various topics by answering a series of multiple-choice questions. The application features a scoring system, achievements, and a leaderboard to track user progress and compete with others.
 
-**URL**: https://lovable.dev/projects/3f57b9c4-cd7c-4cfa-9243-4f109bb32dd3
+## Features
 
-## How can I edit this code?
+- **User Authentication**: Users can sign up and log in to track their progress.
+- **Quiz Gameplay**: A timed quiz with multiple-choice questions.
+- **Achievements**: Users can unlock badges for reaching certain milestones.
+- **Leaderboard**: A global leaderboard to see how you rank against other players.
+- **Profile Page**: View your stats and unlocked achievements.
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/3f57b9c4-cd7c-4cfa-9243-4f109bb32dd3) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
+## Technologies Used
 
 This project is built with:
 
@@ -60,13 +20,11 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## Backend server
+## Backend Server
 
-This project now includes a small Express API backed by SQLite. The server will
-forward quiz requests to the public API so you can work with real questions.
+This project includes a small Express API backed by SQLite. The server will forward quiz requests to the public API so you can work with real questions.
 
-During development you can run the frontend and backend together with one
-command:
+During development you can run the frontend and backend together with one command:
 
 ```bash
 npm run dev
@@ -74,12 +32,10 @@ npm run dev
 
 If you only need the API server, run:
 
-Start it with:
-
-
 ```bash
 npm run start:server
 ```
+
 To just launch the Vite dev server run:
 
 ```bash
@@ -88,14 +44,29 @@ npm run dev:client
 
 The database file is stored at `server/quiz.db` and will be created automatically.
 
-## How can I deploy this project?
+## Getting Started
 
-Simply open [Lovable](https://lovable.dev/projects/3f57b9c4-cd7c-4cfa-9243-4f109bb32dd3) and click on Share -> Publish.
+To get a local copy up and running, follow these simple steps.
 
-## Can I connect a custom domain to my Lovable project?
+### Prerequisites
 
-Yes, you can!
+You need to have Node.js and npm installed on your machine. You can use `nvm` to manage Node.js versions.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/knull-reaper/quiz-arena-achievements-unlocked.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+3.  Start the development server
+    ```sh
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:5173`.
