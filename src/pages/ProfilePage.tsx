@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -18,8 +18,13 @@ export const ProfilePage: React.FC = () => {
     navigate('/signup');
   };
 
+  useEffect(() => {
+    if (!username) {
+      navigate('/signup');
+    }
+  }, [username, navigate]);
+
   if (!username) {
-    navigate('/signup');
     return null;
   }
 
@@ -95,69 +100,49 @@ export const ProfilePage: React.FC = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/levels')} 
-            className="h-auto p-0 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+          <Link
+            to="/levels"
+            className="block p-6 text-center bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
           >
-            <Card className="w-full border-0 shadow-none bg-transparent">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                  <Target className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-bold text-blue-900 mb-1">Choose Level</h3>
-                <p className="text-sm text-blue-700">Pick your challenge</p>
-              </CardContent>
-            </Card>
-          </Button>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+              <Target className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="font-bold text-blue-900 mb-1">Choose Level</h3>
+            <p className="text-sm text-blue-700">Pick your challenge</p>
+          </Link>
 
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/quiz/1')} 
-            className="h-auto p-0 bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+          <Link
+            to="/quiz/1"
+            className="block p-6 text-center bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
           >
-            <Card className="w-full border-0 shadow-none bg-transparent">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                  <Play className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-bold text-green-900 mb-1">Quick Start</h3>
-                <p className="text-sm text-green-700">Jump right in</p>
-              </CardContent>
-            </Card>
-          </Button>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+              <Play className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="font-bold text-green-900 mb-1">Quick Start</h3>
+            <p className="text-sm text-green-700">Jump right in</p>
+          </Link>
 
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/leaderboard')} 
-            className="h-auto p-0 bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+          <Link
+            to="/leaderboard"
+            className="block p-6 text-center bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
           >
-            <Card className="w-full border-0 shadow-none bg-transparent">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                  <Trophy className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-bold text-purple-900 mb-1">Leaderboard</h3>
-                <p className="text-sm text-purple-700">See top players</p>
-              </CardContent>
-            </Card>
-          </Button>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+              <Trophy className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="font-bold text-purple-900 mb-1">Leaderboard</h3>
+            <p className="text-sm text-purple-700">See top players</p>
+          </Link>
 
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/quiz/10')} 
-            className="h-auto p-0 bg-gradient-to-br from-orange-50 to-red-100 hover:from-orange-100 hover:to-red-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+          <Link
+            to="/quiz/10"
+            className="block p-6 text-center bg-gradient-to-br from-orange-50 to-red-100 hover:from-orange-100 hover:to-red-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
           >
-            <Card className="w-full border-0 shadow-none bg-transparent">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                  <Zap className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-bold text-red-900 mb-1">Challenge Mode</h3>
-                <p className="text-sm text-red-700">Ultimate test</p>
-              </CardContent>
-            </Card>
-          </Button>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+              <Zap className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="font-bold text-red-900 mb-1">Challenge Mode</h3>
+            <p className="text-sm text-red-700">Ultimate test</p>
+          </Link>
         </div>
 
         {/* Main Content Grid */}

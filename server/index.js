@@ -1,6 +1,10 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+import express from 'express';
+import sqlite3 from 'sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
@@ -231,4 +235,3 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
