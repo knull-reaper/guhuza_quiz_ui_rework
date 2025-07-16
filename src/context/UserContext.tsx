@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface UserContextType {
   username: string | null;
@@ -21,14 +21,9 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [username, setUsernameState] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('ghz_username');
-    if (storedUsername) {
-      setUsernameState(storedUsername);
-    }
-  }, []);
+  const [username, setUsernameState] = useState<string | null>(() => {
+    return localStorage.getItem('ghz_username');
+  });
 
   const setUsername = (newUsername: string) => {
     setUsernameState(newUsername);
