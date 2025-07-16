@@ -102,7 +102,7 @@ export const ProfilePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Link
             to="/levels"
-            className="block p-6 text-center bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+            className="block p-6 text-center bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg z-10"
           >
             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Target className="h-8 w-8 text-white" />
@@ -113,7 +113,7 @@ export const ProfilePage: React.FC = () => {
 
           <Link
             to="/quiz/1"
-            className="block p-6 text-center bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+            className="block p-6 text-center bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg z-10"
           >
             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Play className="h-8 w-8 text-white" />
@@ -124,7 +124,7 @@ export const ProfilePage: React.FC = () => {
 
           <Link
             to="/leaderboard"
-            className="block p-6 text-center bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+            className="block p-6 text-center bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg z-10"
           >
             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Trophy className="h-8 w-8 text-white" />
@@ -135,7 +135,7 @@ export const ProfilePage: React.FC = () => {
 
           <Link
             to="/quiz/10"
-            className="block p-6 text-center bg-gradient-to-br from-orange-50 to-red-100 hover:from-orange-100 hover:to-red-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg"
+            className="block p-6 text-center bg-gradient-to-br from-orange-50 to-red-100 hover:from-orange-100 hover:to-red-200 cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md rounded-lg z-10"
           >
             <div className="w-16 h-16 mx-auto bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Zap className="h-8 w-8 text-white" />

@@ -45,7 +45,7 @@ export const SignupPage: React.FC = () => {
       setUserContextUsername(username.trim());
       
       toast({
-        title: "Welcome to QuizMaster!",
+        title: "Welcome to Guhuza Quiz!",
         description: `Your adventure begins now, ${username}!`,
       });
       
@@ -73,7 +73,7 @@ export const SignupPage: React.FC = () => {
             <Sparkles className="h-10 w-10 text-white" />
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
-            Welcome to QuizMaster
+            Welcome to Guhuza Quiz
           </h1>
           <p className="text-muted-foreground text-lg">
             Test your knowledge across multiple levels and compete with players worldwide
