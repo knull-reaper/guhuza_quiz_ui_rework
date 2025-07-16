@@ -1,48 +1,54 @@
-# Agent Task Summary
+# Agent Task: API Setup and Verification
 
-This document summarizes the tasks performed by the agent to debug and fix the quiz application.
+This document outlines the steps for an AI agent to set up and verify the quiz API.
 
-## Initial Setup
+## 1. Understand the API
 
-1.  **Problem:** The application was not running.
-2.  **Action:**
-    - Inspected `package.json` to identify the start scripts and dependencies.
-    - Installed dependencies using `npm install`.
-    - Ran the application using `npm run dev`.
+- **Objective:** Familiarize yourself with the API endpoints, request methods, and response structures.
+- **Action:** Read the `api_docs.md` file to get a comprehensive understanding of how the API works.
 
-## Server Start Error
+## 2. Verify API Response
 
-1.  **Problem:** The server failed to start due to a `ReferenceError: require is not defined in ES module scope`.
-2.  **Action:**
-    - Modified `server/index.js` to use ES module `import` syntax instead of CommonJS `require`.
-    - Added the necessary `import.meta.url` logic to correctly resolve `__dirname`.
+- **Objective:** Ensure the API is responding as expected.
+- **Action:** Use a `curl` command to send a `GET` request to the API and verify the JSON response.
 
-## Profile Page Navigation Issues
+### Example `curl` command:
 
-1.  **Problem:** The navigation buttons on the profile page were not working. They were static and did not respond to clicks or show any animations.
-2.  **Action:**
-    - **Attempt 1:** Replaced the `Button` components with `div` elements and added `onClick` handlers. This did not resolve the issue.
-    - **Attempt 2:** Added hover and transition classes to the `div` elements to restore animations. This did not resolve the issue.
-    - **Attempt 3:** Replaced the `div` elements with `Card` components and added `onClick` handlers. This did not resolve the issue.
-    - **Attempt 4:** Replaced the `Card` components with simple `div` elements. This did not resolve the issue.
-    - **Attempt 5:** Wrapped the navigation logic in a `useEffect` hook to prevent it from running during the initial render. This did not resolve the issue.
-    - **Attempt 6:** Replaced the `div` elements with `Link` components from `react-router-dom`.
-    - **Attempt 7:** Added a `z-index` to the `Link` components to ensure they are not being overlapped by other elements. This is the correct and final solution.
+```bash
+curl "https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=1"
+```
 
-## Signup Page Issues
+### Expected Response Structure:
 
-1.  **Problem:** The signup page was not working correctly. Clicking the "Start Your Quiz Adventure" button did not log the user in or redirect to the profile page.
-2.  **Action:**
-    - Added a `console.log` to the `UserContext.tsx` to debug the `setUsername` function.
-    - The log was not triggered, indicating that the `handleSubmit` function in `SignupPage.tsx` was not being called.
-    - The issue was likely related to the form submission not being triggered correctly.
+```json
+{
+  "test": {
+    "test_group": 1,
+    "next_test_group": 2,
+    "question": [
+      {
+        "question": "What is the capital of Rwanda?",
+        "comment": "This is a comment about the question.",
+        "test_answer": 0,
+        "answers": ["Kigali", "Nairobi", "Kampala", "Dodoma"]
+      },
+      {
+        "question": "What is the highest mountain in Rwanda?",
+        "comment": "This is another comment.",
+        "test_answer": 2,
+        "answers": [
+          "Mount Sabyinyo",
+          "Mount Gahinga",
+          "Mount Karisimbi",
+          "Mount Muhabura"
+        ]
+      }
+    ]
+  }
+}
+```
 
-## Name Change
+## 3. Implement API Integration
 
-1.  **Problem:** The application was named "QuizMaster" and needed to be renamed to "Guhuza Quiz".
-2.  **Action:**
-    - Searched for all occurrences of "QuizMaster" and replaced them with "Guhuza Quiz".
-
-## Current Status
-
-The application is now running, and the navigation issues on the profile page have still not been resolved. The signup page issue is also still under investigation.
+- **Objective:** Integrate the API into the application.
+- **Action:** Based on the API documentation and successful verification, proceed with implementing the API calls within the application's codebase.
