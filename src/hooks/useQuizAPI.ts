@@ -51,7 +51,7 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
 
       const apiJson = await response.json();
 
-      let questions: any[] = [];
+      let questions: Array<Record<string, any>> = [];
       if (Array.isArray(apiJson)) {
         questions = apiJson;
       } else if (Array.isArray(apiJson.questions)) {
@@ -60,7 +60,7 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
         questions = apiJson.test.question;
       }
 
-      const data: Question[] = questions.map((q: any, idx: number) => ({
+      const data: Question[] = questions.map((q: Record<string, any>, idx: number) => ({
         id: q.id ?? idx + 1,
         question: q.question,
         answers: q.answers,
