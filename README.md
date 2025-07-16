@@ -58,7 +58,7 @@ You need to have Node.js and npm installed on your machine. You can use `nvm` to
 
 1.  Clone the repo
     ```sh
-    git clone https://github.com/knull-reaper/quiz-arena-achievements-unlocked.git
+    git clone https://github.com/knull-reaper/guhuza_quiz_ui_rework.git
     ```
 2.  Install NPM packages
     ```sh
