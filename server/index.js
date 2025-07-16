@@ -2,6 +2,7 @@ import express from 'express';
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,57 +95,26 @@ app.get('/api/user/:username/achievements', async (req, res) => {
   }
 });
 
+let allQuestions = {};
+fs.readFile(path.join(__dirname, 'quiz-questions.json'), 'utf-8')
+  .then(data => {
+    allQuestions = JSON.parse(data);
+    console.log('Quiz questions loaded from JSON file.');
+  })
+  .catch(err => {
+    console.error('Error reading quiz questions file:', err);
+  });
+
 // GET /api/v2/quiz
 app.get('/api/v2/quiz', async (req, res) => {
   const level = parseInt(req.query.level, 10) || 1;
-  try {
-    const response = await fetch(
-      `https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=${level}`
-    );
-    if (!response.ok) {
-      throw new Error('Failed to fetch remote quiz');
-    }
-    const apiJson = await response.json();
-
-    let questions = [];
-    if (Array.isArray(apiJson)) {
-      questions = apiJson;
-    } else if (Array.isArray(apiJson.questions)) {
-      questions = apiJson.questions;
-    } else if (Array.isArray(apiJson.test?.question)) {
-      questions = apiJson.test.question;
-    }
-
-    if (!questions.length) {
-      throw new Error('Unexpected API response');
-    }
-
-    const normalized = questions.map((q, idx) => ({
-      id: q.id ?? idx + 1,
-      question: q.question,
-      answers: q.answers,
-      correct: q.test_answer ?? q.correct,
-      level: q.level ?? level
-    }));
-
-    res.json(normalized);
-  } catch (err) {
-    console.warn('Remote quiz fetch failed, using mock data', err);
-    res.json(generateMockQuestions(level));
+  if (allQuestions[level]) {
+    res.json(allQuestions[level]);
+  } else {
+    res.status(404).json({ error: `Level ${level} not found.` });
   }
 });
 
-function generateMockQuestions(level) {
-  const difficulties = ['easy', 'medium', 'hard', 'expert'];
-  const difficulty = difficulties[Math.min(level - 1, 3)] || 'expert';
-  return Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    question: `Level ${level} ${difficulty} question ${i + 1}: What is the capital of a fictional country?`,
-    answers: ['Answer A', 'Answer B', 'Answer C', 'Answer D'],
-    correct: Math.floor(Math.random() * 4),
-    level
-  }));
-}
 
 // Helper functions reused from hooks
 function calculateLevelStatuses(userSubmissions) {

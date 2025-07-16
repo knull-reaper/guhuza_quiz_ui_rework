@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface Question {
   id: number;
@@ -15,24 +15,21 @@ interface UseQuizAPIReturn {
   refetch: () => void;
 }
 
-const CACHE_KEY_PREFIX = 'ghz_quiz_cache_level_';
+const CACHE_KEY_PREFIX = "ghz_quiz_cache_level_";
 
 // Mock questions as fallback
 const generateMockQuestions = (level: number): Question[] => {
-  const difficulties = ['easy', 'medium', 'hard', 'expert'];
-  const difficulty = difficulties[Math.min(level - 1, 3)] || 'expert';
-  
+  const difficulties = ["easy", "medium", "hard", "expert"];
+  const difficulty = difficulties[Math.min(level - 1, 3)] || "expert";
+
   return Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
-    question: `Level ${level} ${difficulty} question ${i + 1}: What is the capital of a fictional country?`,
-    answers: [
-      'Answer A',
-      'Answer B', 
-      'Answer C',
-      'Answer D'
-    ],
+    question: `Level ${level} ${difficulty} question ${
+      i + 1
+    }: What is the capital of a fictional country?`,
+    answers: ["Answer A", "Answer B", "Answer C", "Answer D"],
     correct: Math.floor(Math.random() * 4),
-    level: level
+    level: level,
   }));
 };
 
@@ -49,7 +46,7 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
       const response = await fetch(`/api/v2/quiz?level=${level}`);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch from API');
+        throw new Error("Failed to fetch from API");
       }
 
       const apiJson = await response.json();
@@ -68,7 +65,7 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
         question: q.question,
         answers: q.answers,
         correct: q.test_answer ?? q.correct,
-        level: q.level ?? level
+        level: q.level ?? level,
       }));
 
       // Cache the fetched questions so we can work offline later
@@ -79,7 +76,7 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
 
       setQuestions(data);
     } catch (err) {
-      console.warn('API fetch failed, trying cache...', err);
+      console.warn("API fetch failed, trying cache...", err);
 
       const cached = localStorage.getItem(CACHE_KEY_PREFIX + level);
 
@@ -108,6 +105,6 @@ export const useQuizAPI = (level: number): UseQuizAPIReturn => {
     questions,
     loading,
     error,
-    refetch: fetchQuestions
+    refetch: fetchQuestions,
   };
 };

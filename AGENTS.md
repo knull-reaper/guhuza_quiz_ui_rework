@@ -1,54 +1,24 @@
-# Agent Task: API Setup and Verification
+# Agents Plan
 
-This document outlines the steps for an AI agent to set up and verify the quiz API.
+This document outlines the plan to refactor the quiz application to use the `quiz-questions.json` file for loading questions based on levels.
 
-## 1. Understand the API
+## 1. Understand the Data Structure
 
-- **Objective:** Familiarize yourself with the API endpoints, request methods, and response structures.
-- **Action:** Read the `api_docs.md` file to get a comprehensive understanding of how the API works.
+The first step is to inspect the `server/quiz-questions.json` file to understand how the questions and levels are structured. This will inform how the data is fetched and parsed in the application.
 
-## 2. Verify API Response
+## 2. Refactor Level and Question Logic
 
-- **Objective:** Ensure the API is responding as expected.
-- **Action:** Use a `curl` command to send a `GET` request to the API and verify the JSON response.
+The following files will be modified to implement the new logic:
 
-### Example `curl` command:
+- **`server/index.js`**: The server will be updated to read the `quiz-questions.json` file and provide an endpoint to fetch questions for a specific level.
+- **`src/hooks/useQuizAPI.ts`**: This hook will be updated to fetch questions from the new server endpoint based on the selected level.
+- **`src/pages/LevelsPage.tsx`**: This page will be updated to correctly handle level selection and pass the selected level to the `useQuizAPI.ts` hook.
+- **`src/pages/QuizPage.tsx`**: This page will be updated to render the questions fetched for the selected level.
 
-```bash
-curl "https://api-ghz-v2.azurewebsites.net/api/v2/quiz?level=1"
-```
+## 3. Fix Level-Related Issues
 
-### Expected Response Structure:
+All existing issues related to level progression and question loading will be addressed during the refactoring process. This includes ensuring that:
 
-```json
-{
-  "test": {
-    "test_group": 1,
-    "next_test_group": 2,
-    "question": [
-      {
-        "question": "What is the capital of Rwanda?",
-        "comment": "This is a comment about the question.",
-        "test_answer": 0,
-        "answers": ["Kigali", "Nairobi", "Kampala", "Dodoma"]
-      },
-      {
-        "question": "What is the highest mountain in Rwanda?",
-        "comment": "This is another comment.",
-        "test_answer": 2,
-        "answers": [
-          "Mount Sabyinyo",
-          "Mount Gahinga",
-          "Mount Karisimbi",
-          "Mount Muhabura"
-        ]
-      }
-    ]
-  }
-}
-```
-
-## 3. Implement API Integration
-
-- **Objective:** Integrate the API into the application.
-- **Action:** Based on the API documentation and successful verification, proceed with implementing the API calls within the application's codebase.
+- The correct questions are loaded for each level.
+- The user's progress through the levels is correctly tracked.
+- The UI correctly reflects the user's current level and progress.
