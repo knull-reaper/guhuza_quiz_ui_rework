@@ -258,6 +258,7 @@ export const QuizPage: React.FC = () => {
         {/* Timer */}
         <div className="mb-6">
           <Timer
+            key={currentQuestionIndex}
             duration={30}
             onTimeUp={handleTimeUp}
             isActive={quizState === 'playing' && !showResult}

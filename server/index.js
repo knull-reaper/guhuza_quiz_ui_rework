@@ -140,7 +140,7 @@ function calculateLevelStatuses(userSubmissions) {
     let unlocked = i === 1;
     if (i > 1) {
       const prevLevel = levels[i - 2];
-      unlocked = prevLevel && prevLevel.bestScore !== undefined && (prevLevel.bestScore / 10) * 100 >= 70;
+      unlocked = prevLevel && prevLevel.stars > 0;
     }
 
     levels.push({
