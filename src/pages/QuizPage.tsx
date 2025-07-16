@@ -7,6 +7,7 @@ import { ArrowLeft, Trophy, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { QuestionCard } from '../components/QuestionCard';
 import { Timer } from '../components/Timer';
 import { ConfettiEffect } from '../components/ConfettiEffect';
+import { Mascot } from '../components/Mascot';
 import { useQuizAPI } from '../hooks/useQuizAPI';
 import { useSubmitQuiz } from '../hooks/useSubmitQuiz';
 import { useUser } from '../context/UserContext';
@@ -32,6 +33,7 @@ export const QuizPage: React.FC = () => {
   const [showResult, setShowResult] = useState(false);
   const [newAwards, setNewAwards] = useState<{ achievements: any[]; badges: any[] }>({ achievements: [], badges: [] });
   const [showConfetti, setShowConfetti] = useState(false);
+  const [mascotStatus, setMascotStatus] = useState<'greeting' | 'correct' | 'incorrect' | 'proud'>('greeting');
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
@@ -43,8 +45,17 @@ export const QuizPage: React.FC = () => {
     }
   }, [username, navigate]);
 
+  useEffect(() => {
+    setMascotStatus('greeting');
+  }, [currentQuestionIndex]);
+
   const handleAnswer = useCallback((answerIndex: number) => {
     if (selectedAnswer !== undefined) return;
+
+    if (currentQuestion) {
+      const isCorrect = answerIndex === currentQuestion.correct;
+      setMascotStatus(isCorrect ? 'correct' : 'incorrect');
+    }
     
     setSelectedAnswer(answerIndex);
     setShowResult(true);
@@ -97,9 +108,10 @@ export const QuizPage: React.FC = () => {
       if (result.success) {
         setNewAwards(result.newlyAwarded);
         
-        // Show confetti if any awards were earned
+        // Show confetti and set mascot to proud if any awards were earned
         if (result.newlyAwarded.achievements.length > 0 || result.newlyAwarded.badges.length > 0) {
           setShowConfetti(true);
+          setMascotStatus('proud');
         }
         
         toast({
@@ -255,28 +267,37 @@ export const QuizPage: React.FC = () => {
           <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="mb-2" />
         </div>
 
-        {/* Timer */}
-        <div className="mb-6">
-          <Timer
-            key={currentQuestionIndex}
-            duration={30}
-            onTimeUp={handleTimeUp}
-            isActive={quizState === 'playing' && !showResult}
-          />
-        </div>
+        <div className="flex justify-center items-center gap-8">
+          <div className="w-full lg:w-3/4">
+            {/* Timer */}
+            <div className="mb-6">
+              <Timer
+                key={currentQuestionIndex}
+                duration={30}
+                onTimeUp={handleTimeUp}
+                isActive={quizState === 'playing' && !showResult}
+              />
+            </div>
 
-        {/* Question */}
-        {currentQuestion && (
-          <QuestionCard
-            question={currentQuestion}
-            onAnswer={handleAnswer}
-            questionNumber={currentQuestionIndex + 1}
-            totalQuestions={questions.length}
-            selectedAnswer={selectedAnswer}
-            showResult={showResult}
-            disabled={showResult || quizState !== 'playing'}
-          />
-        )}
+            {/* Question */}
+            {currentQuestion && (
+              <QuestionCard
+                question={currentQuestion}
+                onAnswer={handleAnswer}
+                questionNumber={currentQuestionIndex + 1}
+                totalQuestions={questions.length}
+                selectedAnswer={selectedAnswer}
+                showResult={showResult}
+                disabled={showResult || quizState !== 'playing'}
+              />
+            )}
+          </div>
+          
+          {/* Mascot */}
+          <div className="hidden lg:flex justify-center items-center w-1/4 mt-16">
+            <Mascot status={mascotStatus} />
+          </div>
+        </div>
       </div>
     </div>
   );
