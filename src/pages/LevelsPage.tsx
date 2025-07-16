@@ -183,10 +183,11 @@ export const LevelsPage: React.FC = () => {
                       <div className="text-sm font-medium text-success">
                         Best: {scorePercentage}%
                       </div>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
+                      <Button
+                        size="sm"
+                        variant="outline"
                         className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
+                        onClick={() => navigate(`/quiz/${level.level}`)}
                       >
                         Replay Level
                       </Button>
@@ -194,9 +195,10 @@ export const LevelsPage: React.FC = () => {
                   ) : isUnlocked ? (
                     <div className="text-center space-y-3">
                       <div className="text-muted-foreground">Ready to start</div>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+                        onClick={() => navigate(`/quiz/${level.level}`)}
                       >
                         Start Level
                       </Button>

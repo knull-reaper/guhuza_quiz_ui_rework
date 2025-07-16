@@ -3,12 +3,14 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs/promises';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const db = new sqlite3.Database(path.join(__dirname, 'quiz.db'));
 
